@@ -39,21 +39,21 @@ export default buildConfig({
               const collections: CollectionSlug[] = ['pages', 'users']
 
               for (const collection of collections) {
-                if (doc[collection].length > 0) {
-                  console.log('start query...')
-                  await req.payload.update({
-                    collection,
-                    where: {
-                      id: {
-                        in: doc[collection],
-                      },
+                console.log('start query...', collection)
+                await req.payload.update({
+                  collection,
+                  where: {
+                    id: {
+                      in: [1, 2, 3, 5, 6, 7],
                     },
-                    data: {
-                      featured: true,
-                    },
-                  })
-                  console.log('end query... (never shows)')
-                }
+                  },
+                  data: {
+                    featured: true,
+                  },
+                })
+                console.log(
+                  'end query... (never shows for collections/globals with payload updates in hook)',
+                )
               }
             } catch (error) {
               console.log(error)
@@ -77,6 +77,33 @@ export default buildConfig({
           type: 'checkbox',
         },
       ],
+      // hooks: {
+      //   afterChange: [
+      //     async ({ doc, req }) => {
+      //       try {
+      //         const collections: CollectionSlug[] = ['pages', 'users']
+
+      //         for (const collection of collections) {
+      //           console.log('start query...', collection)
+      //           await req.payload.update({
+      //             collection,
+      //             where: {
+      //               id: {
+      //                 in: [1, 2, 3, 5, 6, 7],
+      //               },
+      //             },
+      //             data: {
+      //               featured: true,
+      //             },
+      //           })
+      //           console.log('end query... (never shows for collections with afterChange hook)')
+      //         }
+      //       } catch (error) {
+      //         console.log(error)
+      //       }
+      //     },
+      //   ],
+      // },
     },
     {
       slug: 'pages',
